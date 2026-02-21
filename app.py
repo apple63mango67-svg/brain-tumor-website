@@ -11,7 +11,8 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 import numpy as np
 
-# Import model utilities
+# Import model utilities and download helper
+from download_model import download_model
 from model_utils import load_model, preprocess_image, is_brain_image, predict_tumor, get_tumor_explanation
 
 app = Flask(__name__)
@@ -29,6 +30,7 @@ model = None
 def get_model():
     global model
     if model is None:
+        download_model()
         model = load_model()
     return model
 
@@ -107,4 +109,4 @@ if __name__ == '__main__':
     print('Loading model...')
     get_model()
     print('Model ready.')
-    app.run(debug=True, port=5000)
+    app.run(debug=True)
