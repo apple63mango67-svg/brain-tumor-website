@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Brain Tumor Detector{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0c0e12;
+            --bg-card: #14171c;
+            --border: #2d333b;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #4a9eff;
+            --success: #3fb950;
+            --danger: #f85149;
+            --warning: #d29922;
+            --radius: 10px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+        .container { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem; }
+        header { text-align: center; margin-bottom: 2rem; }
+        header h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.25rem; letter-spacing: -0.02em; }
+        .subtitle { color: var(--text-muted); font-size: 0.9rem; }
+        main {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .back-link { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; margin-bottom: 1rem; display: inline-block; }
+        .back-link:hover { color: var(--accent); }
+        .btn { display: inline-block; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 500; cursor: pointer; border: none; font-size: 0.95rem; }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover:not(:disabled) { filter: brightness(1.1); }
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Brain Tumor Detector</h1>
+            <p class="subtitle">Upload a brain MRI scan for AI-powered screening</p>
+        </header>
+        <main>{% block content %}{% endblock %}</main>
+    </div>
+</body>
+</html>

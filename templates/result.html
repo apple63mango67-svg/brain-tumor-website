@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="{{ url_for('index') }}" class="back-link">← Back to upload</a>
+
+{% if error %}
+<div class="result-box result-error">
+    <div class="result-icon error">!</div>
+    <h2>Invalid Input</h2>
+    <p>{{ error }}</p>
+</div>
+{% else %}
+<div class="result-layout">
+    {% if image_data %}
+    <div class="result-image-wrap">
+        <img src="{{ image_data }}" alt="Analyzed brain scan" class="result-image">
+        <p class="result-image-label">Analyzed scan</p>
+    </div>
+    {% endif %}
+    <div class="result-box result-{{ 'tumor' if has_tumor else 'healthy' }}">
+        <div class="result-icon {{ 'tumor' if has_tumor else 'healthy' }}">
+            {{ '⚠' if has_tumor else '✓' }}
+        </div>
+        <h2>{{ 'Tumor Detected' if has_tumor else 'No Tumor Detected' }}</h2>
+        <p class="confidence">Confidence: {{ confidence }}%</p>
+        <p class="filename">File: {{ filename }}</p>
+        {% if explanation %}
+        <div class="explanation-box">
+            <h3>How was this determined?</h3>
+            <p>{{ explanation }}</p>
+        </div>
+        {% endif %}
+        <p class="disclaimer">This is an AI-assisted screening tool, not a medical diagnosis. Always consult a healthcare professional.</p>
+    </div>
+</div>
+{% endif %}
+
+<style>
+    .result-layout {
+        display: grid;
+        gap: 1.5rem;
+    }
+    .result-image-wrap {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(0,0,0,0.2);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+    }
+    .result-image {
+        max-width: 100%;
+        max-height: 320px;
+        width: auto;
+        height: auto;
+        border-radius: 8px;
+        display: block;
+        margin: 0 auto;
+    }
+    .result-image-label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-top: 0.5rem;
+    }
+    .result-box {
+        padding: 2rem;
+        border-radius: var(--radius);
+        text-align: center;
+    }
+    .result-box.result-healthy {
+        background: rgba(63, 185, 80, 0.12);
+        border: 1px solid rgba(63, 185, 80, 0.3);
+    }
+    .result-box.result-tumor {
+        background: rgba(248, 81, 73, 0.12);
+        border: 1px solid rgba(248, 81, 73, 0.3);
+    }
+    .result-box.result-error {
+        background: rgba(210, 153, 34, 0.12);
+        border: 1px solid rgba(210, 153, 34, 0.3);
+    }
+    .result-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin: 0 auto 1rem;
+    }
+    .result-icon.healthy { background: var(--success); color: #fff; }
+    .result-icon.tumor { background: var(--danger); color: #fff; }
+    .result-icon.error { background: var(--warning); color: #000; }
+    .result-box h2 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .confidence { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .filename { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .explanation-box {
+        text-align: left;
+        background: rgba(0,0,0,0.15);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border: 1px solid var(--border);
+    }
+    .explanation-box h3 { font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--text); }
+    .explanation-box p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
+    .disclaimer { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+</style>
+{% endblock %}
